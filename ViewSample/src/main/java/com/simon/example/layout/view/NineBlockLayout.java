@@ -24,7 +24,12 @@ public class NineBlockLayout extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		//                   widthMeasureSpec
+		// & 00111111111111111111111111111111
         final int widthSize = widthMeasureSpec & ~(0x3 << 30);
+
+		//                   widthMeasureSpec
+		// & 11000000000000000000000000000000
         final int widthMode = widthMeasureSpec & (0x3 << 30);
 
         final int heightSize = heightMeasureSpec & ~(0x3 << 30);
