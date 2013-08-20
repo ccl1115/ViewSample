@@ -22,6 +22,13 @@ public class RectLayout extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, widthMeasureSpec);
+        final int widthSize = widthMeasureSpec & ~(0x3 << 30);
+        final int heightSize = heightMeasureSpec & ~(0x3 << 30);
+
+        if (widthSize > heightSize) {
+            super.onMeasure(heightMeasureSpec, heightMeasureSpec);
+        } else {
+            super.onMeasure(widthMeasureSpec, widthMeasureSpec);
+        }
     }
 }
