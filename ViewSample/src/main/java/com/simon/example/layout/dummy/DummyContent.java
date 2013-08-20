@@ -30,6 +30,7 @@ public class DummyContent {
         addItem(new DummyItem("1", "RectLayout", R.layout.fragment_rect_layout));
         addItem(new DummyItem("2", "FloatingLayout", R.layout.fragment_floating_layout));
         addItem(new DummyItem("3", "NineBlockLayout", R.layout.fragment_block_layout));
+        addItem(new DummyItem("4", "DoodleView", R.layout.fragment_doodle_layout));
     }
 
     private static void addItem(DummyItem item) {
