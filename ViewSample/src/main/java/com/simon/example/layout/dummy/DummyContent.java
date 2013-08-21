@@ -31,6 +31,7 @@ public class DummyContent {
         addItem(new DummyItem("2", "FloatingLayout", R.layout.fragment_floating_layout));
         addItem(new DummyItem("3", "NineBlockLayout", R.layout.fragment_block_layout));
         addItem(new DummyItem("4", "DoodleView", R.layout.fragment_doodle_layout));
+        addItem(new DummyItem("5", "CoverFlow", R.layout.fragment_cover_flow));
     }
 
     private static void addItem(DummyItem item) {
