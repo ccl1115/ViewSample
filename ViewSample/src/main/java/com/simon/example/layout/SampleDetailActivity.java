@@ -7,6 +7,7 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.simon.example.layout.skin.SkinLayoutFactory;
+import com.simon.example.layout.skin.SkinService;
 
 /**
  * An activity representing a single Sample detail screen. This
@@ -21,7 +22,7 @@ public class SampleDetailActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getLayoutInflater().setFactory(new SkinLayoutFactory());
+        getLayoutInflater().setFactory(SkinService.getFactory(this));
         super.onCreate(savedInstanceState);
 
 

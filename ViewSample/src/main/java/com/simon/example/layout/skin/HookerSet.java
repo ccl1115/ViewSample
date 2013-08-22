@@ -12,11 +12,11 @@ import java.util.ListIterator;
  */
 public abstract class HookerSet implements List<Hooker> {
 
-    public abstract String getNamespace();
-
     private List<Hooker> mHookers = new ArrayList<Hooker>();
 
-    public abstract String getSetPrefix();
+    public abstract String getPrefix();
+
+    public abstract String getNamespace();
 
     @Override
     public void add(int i, Hooker hooker) {

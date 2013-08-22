@@ -1,20 +1,21 @@
 package com.simon.example.layout.skin;
 
 import android.content.Context;
-import android.content.res.XmlResourceParser;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.google.common.collect.Lists;
+import com.simon.example.layout.BuildConfig;
 import com.simon.example.layout.R;
 
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,32 +24,50 @@ import java.util.Map;
  * @author yulu02
  */
 public class SkinLayoutFactory implements LayoutInflater.Factory {
-    private static final String TAG = "com.baidu.adp.lib.skin.SkinLayoutHook";
+    private static final String TAG = "SkinLayoutFactory";
 
     private static final String SKIN_NAMESPACE = "skin";
 
     private HookerSet mHookerSet;
 
-    private static final String[] LOAD_PREFIX = {
-            "android.widget",
-            "android.webkit"
-    };
+    private static final String LOAD_PREFIX = "android.widget.";
 
-    private static Map<String, Constructor> sConstructors;
+    private Map<String, Constructor<? extends View>> mConstructors;
 
-    static {
-        sConstructors = new HashMap<String, Constructor>();
+    public SkinLayoutFactory(Context context) {
+        mConstructors = new HashMap<String, Constructor<? extends View>>();
 
     }
 
+    public static class ValueInfo {
+        public TypedValue mTypedValue;
+        public Hooker.Apply mApply;
+
+        public ValueInfo(TypedValue typedValue, Hooker.Apply apply) {
+            mTypedValue = typedValue;
+            mApply = apply;
+        }
+    }
+
+
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
-        Log.d(TAG, "view name = " + name);
-        View view;
+        View view = null;
         try {
-            Class c = context.getClassLoader().loadClass(name);
-            Constructor constructor = c.getConstructor(Context.class, AttributeSet.class);
-            view = (View) constructor.newInstance(context, attrs);
+            Constructor<? extends View> constructor;
+            Class<? extends View> c;
+            constructor = mConstructors.get(name);
+            if (constructor == null) {
+                ClassLoader classLoader = context.getClassLoader();
+                if (classLoader != null) {
+                    c = classLoader.loadClass(name.contains(".") ? name : LOAD_PREFIX + name).asSubclass(View.class);
+                    constructor = c.getConstructor(Context.class, AttributeSet.class);
+                    mConstructors.put(name, constructor);
+                    view = constructor.newInstance(context, attrs);
+                } else {
+                    return null;
+                }
+            }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return null;
@@ -66,28 +85,47 @@ public class SkinLayoutFactory implements LayoutInflater.Factory {
             return null;
         }
 
-        Log.d("SkinLayoutHook", "view create");
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, "view name = " + name);
+            final int count = attrs.getAttributeCount();
+            for (int i = 0; i < count; i++) {
+                Log.d(TAG, "attribute " + i + " : " + attrs.getAttributeName(i));
+            }
+        }
 
         if (mHookerSet != null) {
+            final List<ValueInfo> infos = Lists.newArrayList();
             for (Hooker hooker : mHookerSet) {
                 switch (hooker.hookType()) {
                     case LITERAL_COLOR: {
+                        if (BuildConfig.DEBUG) {
+                            Log.d(TAG, "try to hook : " + mHookerSet.getNamespace() + ":" + hooker.hookName());
+                        }
                         final String value = attrs.getAttributeValue(mHookerSet.getNamespace(), hooker.hookName());
+                        if (value == null) {
+                            continue;
+                        }
+                        if (BuildConfig.DEBUG) {
+                            Log.d(TAG, "hooked color value: " + value);
+                        }
                         TypedValue tv = new TypedValue();
                         tv.data = parseColor(value);
-                        Log.d("SkinLayoutHook", "hooked color value: " + value);
                         if (hooker.onHook(view, tv)) {
-                            ViewTagger.setTag(view, R.id.skin_hooker, hooker.getApply(view));
+                            infos.add(new ValueInfo(tv, hooker.getApply()));
                         }
                     }
                 }
+            }
+
+            if (infos.size() > 0) {
+                ViewTagger.setTag(view, R.id.skin_hooker, infos);
             }
         }
 
         return view;
     }
 
-    private void setHookerSet(HookerSet hookers) {
+    void setHookerSet(HookerSet hookers) {
         mHookerSet = hookers;
     }
 

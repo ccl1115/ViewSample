@@ -13,13 +13,11 @@ public interface Hooker {
 
     String hookName();
 
-    int hookAttrId();
-
     boolean onHook(View view, TypedValue value);
 
-    Apply getApply(View view);
+    Apply getApply();
 
     public interface Apply {
-        void apply();
+        void apply(View view, TypedValue value);
     }
 }
