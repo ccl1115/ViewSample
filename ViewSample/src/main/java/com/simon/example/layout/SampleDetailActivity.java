@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import com.simon.example.layout.skin.SkinLayoutFactory;
+
 /**
  * An activity representing a single Sample detail screen. This
  * activity is only used on handset devices. On tablet-size devices,
@@ -19,7 +21,10 @@ public class SampleDetailActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getLayoutInflater().setFactory(new SkinLayoutFactory());
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_sample_detail);
 
         // Show the Up button in the action bar.
