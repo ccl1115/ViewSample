@@ -5,6 +5,7 @@ import android.content.res.XmlResourceParser;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -13,6 +14,8 @@ import com.simon.example.layout.R;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 布局钩子
@@ -25,6 +28,18 @@ public class SkinLayoutFactory implements LayoutInflater.Factory {
     private static final String SKIN_NAMESPACE = "skin";
 
     private HookerSet mHookerSet;
+
+    private static final String[] LOAD_PREFIX = {
+            "android.widget",
+            "android.webkit"
+    };
+
+    private static Map<String, Constructor> sConstructors;
+
+    static {
+        sConstructors = new HashMap<String, Constructor>();
+
+    }
 
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
