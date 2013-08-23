@@ -7,13 +7,13 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.google.common.collect.Lists;
 import com.simon.example.layout.BuildConfig;
 import com.simon.example.layout.R;
 
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,26 +94,41 @@ public class SkinLayoutFactory implements LayoutInflater.Factory {
         }
 
         if (mHookerSet != null) {
-            final List<ValueInfo> infos = Lists.newArrayList();
+            final List<ValueInfo> infos = new ArrayList<ValueInfo>();
             for (Hooker hooker : mHookerSet) {
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "try hook name: " + hooker.hookName());
+                }
+                final String value = attrs.getAttributeValue(mHookerSet.getNamespace(), hooker.hookName());
+                if (BuildConfig.DEBUG) {
+                    Log.d(TAG, "try hook value: " + value);
+                }
+                if (value == null) {
+                    continue;
+                }
+                TypedValue tv = null;
                 switch (hooker.hookType()) {
                     case LITERAL_COLOR: {
-                        if (BuildConfig.DEBUG) {
-                            Log.d(TAG, "try to hook : " + mHookerSet.getNamespace() + ":" + hooker.hookName());
-                        }
-                        final String value = attrs.getAttributeValue(mHookerSet.getNamespace(), hooker.hookName());
-                        if (value == null) {
-                            continue;
-                        }
-                        if (BuildConfig.DEBUG) {
-                            Log.d(TAG, "hooked color value: " + value);
-                        }
-                        TypedValue tv = new TypedValue();
-                        tv.data = parseColor(value);
-                        if (hooker.onHook(view, tv)) {
-                            infos.add(new ValueInfo(tv, hooker.getApply()));
-                        }
+                        tv = TypedValueParser.parseLiteralColor(value);
+                        break;
                     }
+                    case LITERAL_STRING: {
+                        break;
+                    }
+                    case REFERENCE_ID: {
+                        break;
+                    }
+                    case LITERAL_DIMENSION:
+                        break;
+                    case LITERAL_INTEGER:
+                        break;
+                    case LITERAL_FLOAT:
+                        tv = TypedValueParser.parseFloat(value);
+                        break;
+                }
+                if (tv == null) return null;
+                if (hooker.shouldHook(view, tv)) {
+                    infos.add(new ValueInfo(tv, hooker.getApply()));
                 }
             }
 
@@ -129,14 +144,4 @@ public class SkinLayoutFactory implements LayoutInflater.Factory {
         mHookerSet = hookers;
     }
 
-    public int parseColor(String color) {
-        if (color.startsWith("#")) {
-            try {
-                return Integer.valueOf(color.substring(1, color.length()));
-            } catch (NumberFormatException e) {
-                return -1;
-            }
-        }
-        return -1;
-    }
 }

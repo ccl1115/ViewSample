@@ -13,7 +13,7 @@ public interface Hooker {
 
     String hookName();
 
-    boolean onHook(View view, TypedValue value);
+    boolean shouldHook(View view, TypedValue value);
 
     Apply getApply();
 

@@ -22,7 +22,7 @@ public class BackgroundColorHooker implements Hooker {
     }
 
     @Override
-    public boolean onHook(View view, TypedValue value) {
+    public boolean shouldHook(View view, TypedValue value) {
         return true;
     }
 

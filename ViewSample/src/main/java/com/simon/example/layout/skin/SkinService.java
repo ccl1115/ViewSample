@@ -1,5 +1,6 @@
 package com.simon.example.layout.skin;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.simon.example.layout.skin.impl.DayHookSet;
@@ -18,5 +19,9 @@ public class SkinService {
             sSkinLayoutFactory.setHookerSet(new DayHookSet());
         }
         return sSkinLayoutFactory;
+    }
+
+    public static void applyTheme(Activity activity) {
+        
     }
 }
