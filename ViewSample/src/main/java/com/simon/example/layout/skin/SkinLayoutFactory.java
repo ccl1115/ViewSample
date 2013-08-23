@@ -2,6 +2,7 @@ package com.simon.example.layout.skin;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -17,6 +18,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.simon.example.layout.skin.HookerType.BOOLEAN;
+import static com.simon.example.layout.skin.HookerType.COLOR;
+import static com.simon.example.layout.skin.HookerType.DIMENSION;
+import static com.simon.example.layout.skin.HookerType.FLOAT;
+import static com.simon.example.layout.skin.HookerType.INTEGER;
+import static com.simon.example.layout.skin.HookerType.REFERENCE_ID;
+import static com.simon.example.layout.skin.HookerType.STRING;
 
 /**
  * 布局钩子
@@ -34,9 +43,11 @@ public class SkinLayoutFactory implements LayoutInflater.Factory {
 
     private Map<String, Constructor<? extends View>> mConstructors;
 
+    private DisplayMetrics mDisplayMetrics;
+
     public SkinLayoutFactory(Context context) {
         mConstructors = new HashMap<String, Constructor<? extends View>>();
-
+        mDisplayMetrics = context.getResources().getDisplayMetrics();
     }
 
     public static class ValueInfo {
@@ -107,24 +118,24 @@ public class SkinLayoutFactory implements LayoutInflater.Factory {
                     continue;
                 }
                 TypedValue tv = null;
-                switch (hooker.hookType()) {
-                    case LITERAL_COLOR: {
-                        tv = TypedValueParser.parseLiteralColor(value);
-                        break;
-                    }
-                    case LITERAL_STRING: {
-                        break;
-                    }
-                    case REFERENCE_ID: {
-                        break;
-                    }
-                    case LITERAL_DIMENSION:
-                        break;
-                    case LITERAL_INTEGER:
-                        break;
-                    case LITERAL_FLOAT:
+                final int hookType = hooker.hookType();
+                if ((hookType & REFERENCE_ID) == REFERENCE_ID) {
+                    tv = TypedValueParser.parseReference(value);
+                }
+                if (tv == null) {
+                    if ((hookType & COLOR) == COLOR) {
+                        tv = TypedValueParser.parseColor(value);
+                    } else if ((hookType & STRING) == STRING) {
+                        tv = TypedValueParser.parseString(value);
+                    } else if ((hookType & FLOAT) == FLOAT) {
                         tv = TypedValueParser.parseFloat(value);
-                        break;
+                    } else if ((hookType & INTEGER) == INTEGER) {
+                        tv = TypedValueParser.parseInt(value);
+                    } else if ((hookType & BOOLEAN) == BOOLEAN) {
+                        tv = TypedValueParser.parseInt(value);
+                    } else if ((hookType & DIMENSION) == DIMENSION) {
+                        tv = TypedValueParser.parseDimension(value, mDisplayMetrics);
+                    }
                 }
                 if (tv == null) return null;
                 if (hooker.shouldHook(view, tv)) {

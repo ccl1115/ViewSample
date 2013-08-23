@@ -9,7 +9,7 @@ import android.view.View;
 */
 public interface Hooker {
 
-    HookerType hookType();
+    int hookType();
 
     String hookName();
 

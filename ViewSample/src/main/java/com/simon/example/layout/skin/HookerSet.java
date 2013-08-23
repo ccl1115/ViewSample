@@ -1,5 +1,7 @@
 package com.simon.example.layout.skin;
 
+import com.simon.example.layout.skin.hookers.BackgroundHooker;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -17,6 +19,10 @@ public abstract class HookerSet implements List<Hooker> {
     public abstract String getPrefix();
 
     public abstract String getNamespace();
+
+    public HookerSet() {
+        add(new BackgroundHooker());
+    }
 
     @Override
     public void add(int i, Hooker hooker) {

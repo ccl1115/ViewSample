@@ -9,11 +9,18 @@ import com.simon.example.layout.skin.HookerType;
 /**
 * @author Simon Yu
 */
-public class BackgroundColorHooker implements Hooker {
+public class BackgroundHooker implements Hooker {
+
+    public static final Apply APPLY = new Apply() {
+        @Override
+        public void apply(View view, TypedValue value) {
+            view.setBackgroundColor(value.data);
+        }
+    };
 
     @Override
-    public HookerType hookType() {
-        return HookerType.LITERAL_COLOR;
+    public int hookType() {
+        return HookerType.COLOR | HookerType.REFERENCE_ID;
     }
 
     @Override
@@ -28,11 +35,6 @@ public class BackgroundColorHooker implements Hooker {
 
     @Override
     public Apply getApply() {
-        return new Apply() {
-            @Override
-            public void apply(View view, TypedValue value) {
-                view.setBackgroundColor(value.data);
-            }
-        };
+        return APPLY;
     }
 }
