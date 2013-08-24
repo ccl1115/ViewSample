@@ -1,11 +1,10 @@
-package com.simon.example.layout.skin.hookers;
+package com.simon.example.layout.skin.hooks;
 
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
 import com.simon.example.layout.skin.Hook;
-import com.simon.example.layout.skin.HookType;
 
 /**
  * @author Simon Yu

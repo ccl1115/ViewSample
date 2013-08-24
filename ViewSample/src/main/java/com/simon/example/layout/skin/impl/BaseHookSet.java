@@ -1,10 +1,10 @@
 package com.simon.example.layout.skin.impl;
 
 import com.simon.example.layout.skin.HookSet;
-import com.simon.example.layout.skin.hookers.BackgroundHook;
-import com.simon.example.layout.skin.hookers.TextColorHook;
-import com.simon.example.layout.skin.hookers.TextHook;
-import com.simon.example.layout.skin.hookers.VisibilityHook;
+import com.simon.example.layout.skin.hooks.BackgroundHook;
+import com.simon.example.layout.skin.hooks.TextColorHook;
+import com.simon.example.layout.skin.hooks.TextHook;
+import com.simon.example.layout.skin.hooks.VisibilityHook;
 
 /**
  * @author Simon Yu

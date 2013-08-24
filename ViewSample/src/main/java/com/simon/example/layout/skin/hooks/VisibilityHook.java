@@ -1,4 +1,4 @@
-package com.simon.example.layout.skin.hookers;
+package com.simon.example.layout.skin.hooks;
 
 import android.util.TypedValue;
 import android.view.View;
