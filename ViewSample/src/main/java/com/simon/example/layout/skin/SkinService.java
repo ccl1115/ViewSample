@@ -38,15 +38,17 @@ public class SkinService {
     }
 
     public static void applyTheme(Activity activity) {
-        applyView(activity.findViewById(android.R.id.content));
+        mTheme = activity.getSharedPreferences("default", Context.MODE_PRIVATE).getString("skin", DayTheme.NAME);
+        applyViews(activity.findViewById(android.R.id.content));
     }
 
     public static void applyTheme(Activity activity, String theme) {
         mTheme = theme;
-        applyView(activity.findViewById(android.R.id.content));
+        activity.getSharedPreferences("default", Context.MODE_PRIVATE).edit().putString("skin", mTheme).apply();
+        applyViews(activity.findViewById(android.R.id.content));
     }
 
-    private static void applyView(View root) {
+    private static void applyViews(View root) {
         if (mTheme == null) return;
 
         Stack<View> stack = new Stack<View>();

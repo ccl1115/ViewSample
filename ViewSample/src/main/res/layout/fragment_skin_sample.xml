@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.widget.LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                              xmlns:night="http://schemas.tieba.baidu.com/android/skin/night"
                              xmlns:day="http://schemas.tieba.baidu.com/android/skin/day"
                              xmlns:tools="http://schemas.android.com/tools"
@@ -9,7 +9,7 @@
                              android:layout_height="match_parent"
                              tools:ignore="MissingPrefix">
 
-    <android.widget.TextView
+    <TextView
             android:layout_width="fill_parent"
             android:layout_height="200dp"
             android:padding="15dp"
@@ -21,11 +21,30 @@
             day:textColor="#FF222222"
             day:text="这是一个白天模式"/>
 
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="这个控件会在夜间模式下消失"
+            android:gravity="center"
+            android:background="#FF983F3C"
+            day:visibility="visible"
+            night:visibility="invisible"/>
 
-    <android.widget.Button
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="这个控件会在白天模式下消失"
+            android:textColor="#FFFFFFFF"
+            android:gravity="center"
+            android:background="#FF392891"
+            day:visibility="invisible"
+            night:visibility="visible"/>
+
+
+    <Button
             android:id="@+id/toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             day:text="切换到夜间模式"
             night:text="切换到白天模式 ^_^"/>
-</android.widget.LinearLayout>
+</LinearLayout>
