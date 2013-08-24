@@ -1,6 +1,12 @@
 package com.simon.example.layout.dummy;
 
+import android.support.v4.app.Fragment;
+
 import com.simon.example.layout.R;
+import com.simon.example.layout.SampleDetailFragment;
+import com.simon.example.layout.SampleListFragment;
+import com.simon.example.layout.SkinSampleFragment;
+import com.simon.example.layout.skin.SkinService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,13 +32,12 @@ public class DummyContent {
     public static Map<String, DummyItem> ITEM_MAP = new HashMap<String, DummyItem>();
 
     static {
-        // Add 3 sample items.
-        addItem(new DummyItem("1", "RectLayout", R.layout.fragment_rect_layout));
-        addItem(new DummyItem("2", "FloatingLayout", R.layout.fragment_floating_layout));
-        addItem(new DummyItem("3", "NineBlockLayout", R.layout.fragment_block_layout));
-        addItem(new DummyItem("4", "DoodleView", R.layout.fragment_doodle_layout));
-        addItem(new DummyItem("5", "CoverFlow", R.layout.fragment_cover_flow));
-        addItem(new DummyItem("6", "SkinSample", R.layout.fragment_skin_sample));
+        addItem(new DummyItem("1", "RectLayout", R.layout.fragment_rect_layout, SampleDetailFragment.class));
+        addItem(new DummyItem("2", "FloatingLayout", R.layout.fragment_floating_layout, SampleDetailFragment.class));
+        addItem(new DummyItem("3", "NineBlockLayout", R.layout.fragment_block_layout, SampleDetailFragment.class));
+        addItem(new DummyItem("4", "DoodleView", R.layout.fragment_doodle_layout, SampleDetailFragment.class));
+        addItem(new DummyItem("5", "CoverFlow", R.layout.fragment_cover_flow, SampleDetailFragment.class));
+        addItem(new DummyItem("6", "SkinSample", R.layout.fragment_skin_sample, SkinSampleFragment.class));
     }
 
     private static void addItem(DummyItem item) {
@@ -47,11 +52,13 @@ public class DummyContent {
         public String id;
         public String content;
         public int layout;
+        public Class<? extends SampleDetailFragment> clazz;
 
-        public DummyItem(String id, String content, int layout) {
+        public DummyItem(String id, String content, int layout, Class<? extends SampleDetailFragment> clazz) {
             this.id = id;
             this.content = content;
             this.layout = layout;
+            this.clazz = clazz;
         }
 
         @Override

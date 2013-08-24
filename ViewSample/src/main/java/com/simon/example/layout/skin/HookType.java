@@ -3,7 +3,7 @@ package com.simon.example.layout.skin;
 /**
 * Created by simon on 13-8-23.
 */
-public class HookerType {
+public class HookType {
     /**
      * 字符串字面值
      */

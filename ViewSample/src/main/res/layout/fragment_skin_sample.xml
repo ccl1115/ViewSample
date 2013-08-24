@@ -13,9 +13,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="15dp"
-            android:text="TEXT"
-            night:background="#FF999999"
-            day:background="#FF333333"/>
+            android:text="TEST"
+            night:background="#FF222222"
+            day:background="#FFFFFFFF"/>
 
 
     <android.widget.Button

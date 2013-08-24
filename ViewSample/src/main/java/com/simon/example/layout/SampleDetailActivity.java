@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
-import com.simon.example.layout.skin.SkinLayoutFactory;
+import com.simon.example.layout.dummy.DummyContent;
 import com.simon.example.layout.skin.SkinService;
 
 /**
@@ -44,14 +44,30 @@ public class SampleDetailActivity extends FragmentActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
+            String id = getIntent().getStringExtra(SampleDetailFragment.ARG_ITEM_ID);
             arguments.putString(SampleDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(SampleDetailFragment.ARG_ITEM_ID));
-            SampleDetailFragment fragment = new SampleDetailFragment();
+                    id);
+            SampleDetailFragment fragment;
+            try {
+                fragment = DummyContent.ITEM_MAP.get(id).clazz.newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+                return;
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                return;
+            }
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.sample_detail_container, fragment)
                     .commit();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SkinService.applyTheme(this, "day");
     }
 
     @Override

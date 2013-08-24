@@ -7,7 +7,7 @@ import android.view.View;
  * 指向Xml文件中的控件的钩子
  * @author yulu02
 */
-public interface Hooker {
+public interface Hook {
 
     int hookType();
 
@@ -18,6 +18,6 @@ public interface Hooker {
     Apply getApply();
 
     public interface Apply {
-        void apply(View view, TypedValue value);
+        void to(View view, TypedValue value);
     }
 }

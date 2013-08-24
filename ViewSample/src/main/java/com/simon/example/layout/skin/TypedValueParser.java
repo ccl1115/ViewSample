@@ -1,7 +1,9 @@
 package com.simon.example.layout.skin;
 
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 
 /**
@@ -10,6 +12,7 @@ import android.util.TypedValue;
  * @see TypedValue
  */
 class TypedValueParser {
+    public static final String TAG = "TypedValueParser";
 
     /**
      * 颜色字面值
@@ -19,14 +22,16 @@ class TypedValueParser {
      */
     static TypedValue parseColor(String color) {
         if (color.startsWith("#")) {
-            String substring = color.substring(1, color.length() - 1);
+            String substring = color.substring(1, color.length());
+            Log.d(TAG, "color : " + substring);
             TypedValue value = new TypedValue();
             try {
-                value.data = Integer.valueOf("0x" + substring);
+                value.data = (int) Long.parseLong(substring, 16);
+                Log.d(TAG, "parseColor : " + Integer.toHexString(value.data));
             } catch (NumberFormatException e) {
                 return null;
             }
-            final int length = substring.length();
+            final int length = color.length() - 1;
             if (length == 6) {
                 value.type = TypedValue.TYPE_INT_COLOR_RGB8;
                 return value;
@@ -55,6 +60,7 @@ class TypedValueParser {
             TypedValue value = new TypedValue();
             value.type = TypedValue.TYPE_FLOAT;
             value.data = Float.floatToIntBits(Float.parseFloat(f));
+            Log.d(TAG, "parseFloat : " + value.data);
             return value;
         } catch (NumberFormatException e) {
             return null;
@@ -102,6 +108,11 @@ class TypedValueParser {
         return tv;
     }
 
+    /**
+     * 字符串字面值
+     * @param string a string
+     * @return the TypedValue
+     */
     static TypedValue parseString(String string) {
         TypedValue tv = new TypedValue();
         tv.type = TypedValue.TYPE_STRING;
@@ -109,6 +120,11 @@ class TypedValueParser {
         return tv;
     }
 
+    /**
+     * 布尔字面值
+     * @param value a boolean
+     * @return the TypedValue
+     */
     static TypedValue parseBoolean(String value) {
         TypedValue tv = new TypedValue();
         tv.type = TypedValue.TYPE_INT_BOOLEAN;
@@ -116,6 +132,11 @@ class TypedValueParser {
         return tv;
     }
 
+    /**
+     * 整型字面值
+     * @param integer a integer
+     * @return the TypedValue
+     */
     static TypedValue parseInt(String integer) {
         TypedValue tv = new TypedValue();
         if (integer.startsWith("0x")) {
@@ -137,9 +158,15 @@ class TypedValueParser {
         }
     }
 
-    static TypedValue parseReference(String ref) {
-        // TODO parse reference
-        return new TypedValue();
+    static TypedValue parseReference(String ref, Resources res) {
+        if (ref.startsWith("@")) {
+            TypedValue tv = new TypedValue();
+            tv.type = TypedValue.TYPE_REFERENCE;
+            tv.data = res.getIdentifier(ref.substring(1, ref.length() - 1), null, null);
+            return tv;
+        } else {
+            return null;
+        }
     }
 
 }

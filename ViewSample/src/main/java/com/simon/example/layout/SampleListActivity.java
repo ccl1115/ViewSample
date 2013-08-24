@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+import com.simon.example.layout.dummy.DummyContent;
+
 
 /**
  * An activity representing a list of Samples. This activity
@@ -64,7 +66,16 @@ public class SampleListActivity extends FragmentActivity
             // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(SampleDetailFragment.ARG_ITEM_ID, id);
-            SampleDetailFragment fragment = new SampleDetailFragment();
+            SampleDetailFragment fragment;
+            try {
+                fragment = DummyContent.ITEM_MAP.get(id).clazz.newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+                return;
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+                return;
+            }
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.sample_detail_container, fragment)

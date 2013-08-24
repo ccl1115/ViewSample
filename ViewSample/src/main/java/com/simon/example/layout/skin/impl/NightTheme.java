@@ -1,15 +1,17 @@
 package com.simon.example.layout.skin.impl;
 
-import com.simon.example.layout.skin.HookerSet;
+import com.simon.example.layout.skin.HookSet;
 
 /**
  * @author Simon Yu
  */
-public class NightHookerSet extends HookerSet {
+public class NightTheme extends BaseHookSet {
+
+    public static final String NAME = "night";
 
     @Override
     public String getPrefix() {
-        return "night";
+        return NAME;
     }
 
     @Override

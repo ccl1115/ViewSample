@@ -1,14 +1,17 @@
 package com.simon.example.layout.skin.impl;
 
-import com.simon.example.layout.skin.HookerSet;
+import com.simon.example.layout.skin.HookSet;
 
 /**
  * @author Simon Yu
  */
-public class DayHookSet extends HookerSet {
+public class DayTheme extends BaseHookSet {
+
+    public static final String NAME = "day";
+
     @Override
     public String getPrefix() {
-        return "day";
+        return NAME;
     }
 
     @Override
