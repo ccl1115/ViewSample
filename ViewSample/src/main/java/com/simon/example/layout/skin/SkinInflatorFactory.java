@@ -89,6 +89,8 @@ public class SkinInflatorFactory implements LayoutInflater.Factory {
                 } else {
                     return null;
                 }
+            } else {
+                view = constructor.newInstance(context, attrs);
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

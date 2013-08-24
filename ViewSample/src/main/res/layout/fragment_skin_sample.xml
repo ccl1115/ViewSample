@@ -10,17 +10,22 @@
                              tools:ignore="MissingPrefix">
 
     <android.widget.TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
             android:padding="15dp"
-            android:text="TEST"
+            android:gravity="center"
             night:background="#FF222222"
-            day:background="#FFFFFFFF"/>
+            night:textColor="#FFFFFFFF"
+            night:text="这是一个夜间模式"
+            day:background="#FFFFFFFF"
+            day:textColor="#FF222222"
+            day:text="这是一个白天模式"/>
 
 
     <android.widget.Button
             android:id="@+id/toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TOGGLE"/>
+            day:text="切换到夜间模式"
+            night:text="切换到白天模式 ^_^"/>
 </android.widget.LinearLayout>
