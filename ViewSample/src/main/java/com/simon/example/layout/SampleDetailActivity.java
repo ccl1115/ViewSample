@@ -8,7 +8,6 @@ import android.view.MenuItem;
 
 import com.simon.example.layout.dummy.DummyContent;
 import com.simon.example.layout.skin.SkinService;
-import com.simon.example.layout.skin.impl.DayTheme;
 
 /**
  * An activity representing a single Sample detail screen. This
@@ -68,7 +67,7 @@ public class SampleDetailActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        SkinService.applyTheme(this);
+        SkinService.applySkin(this);
     }
 
     @Override

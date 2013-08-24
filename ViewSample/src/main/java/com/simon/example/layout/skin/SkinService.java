@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.simon.example.layout.R;
-import com.simon.example.layout.skin.impl.DayTheme;
-import com.simon.example.layout.skin.impl.NightTheme;
+import com.simon.example.layout.skin.impl.DaySkin;
+import com.simon.example.layout.skin.impl.NightSkin;
 
 import java.util.List;
 import java.util.Stack;
@@ -25,31 +25,31 @@ public class SkinService {
     public synchronized static SkinInflatorFactory getFactory(Context context) {
         if (sSkinInflatorFactory == null) {
             sSkinInflatorFactory = new SkinInflatorFactory(context);
-            sSkinInflatorFactory.addHookSet(new DayTheme());
-            sSkinInflatorFactory.addHookSet(new NightTheme());
+            sSkinInflatorFactory.addHookSet(new DaySkin());
+            sSkinInflatorFactory.addHookSet(new NightSkin());
         }
         return sSkinInflatorFactory;
     }
 
-    private static String mTheme;
+    private static String mSkin;
 
     public static String getTheme() {
-        return mTheme;
+        return mSkin;
     }
 
-    public static void applyTheme(Activity activity) {
-        mTheme = activity.getSharedPreferences("default", Context.MODE_PRIVATE).getString("skin", DayTheme.NAME);
+    public static void applySkin(Activity activity) {
+        mSkin = activity.getSharedPreferences("default", Context.MODE_PRIVATE).getString("skin", DaySkin.NAME);
         applyViews(activity.findViewById(android.R.id.content));
     }
 
-    public static void applyTheme(Activity activity, String theme) {
-        mTheme = theme;
-        activity.getSharedPreferences("default", Context.MODE_PRIVATE).edit().putString("skin", mTheme).apply();
+    public static void applySkin(Activity activity, String skin) {
+        mSkin = skin;
+        activity.getSharedPreferences("default", Context.MODE_PRIVATE).edit().putString("skin", mSkin).apply();
         applyViews(activity.findViewById(android.R.id.content));
     }
 
     private static void applyViews(View root) {
-        if (mTheme == null) return;
+        if (mSkin == null) return;
 
         Stack<View> stack = new Stack<View>();
         stack.push(root);
@@ -71,7 +71,7 @@ public class SkinService {
                 }
 
                 for (ValueInfo info : list) {
-                    if (mTheme.equals(info.theme)) info.apply.to(v, info.typedValue);
+                    if (mSkin.equals(info.theme)) info.apply.to(v, info.typedValue);
                 }
             }
         }

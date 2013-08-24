@@ -5,9 +5,9 @@ import com.simon.example.layout.skin.HookSet;
 /**
  * @author Simon Yu
  */
-public class DayTheme extends BaseHookSet {
+public class NightSkin extends BaseHookSet {
 
-    public static final String NAME = "day";
+    public static final String NAME = "night";
 
     @Override
     public String getPrefix() {
@@ -16,6 +16,6 @@ public class DayTheme extends BaseHookSet {
 
     @Override
     public String getNamespace() {
-        return "http://schemas.tieba.baidu.com/android/skin/day";
+        return "http://schemas.tieba.baidu.com/android/skin/night";
     }
 }
