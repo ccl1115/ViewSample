@@ -55,12 +55,12 @@ public class SkinInflatorFactory implements LayoutInflater.Factory {
      * Use to bind a typed value to an applier
      */
     public static class ValueInfo {
-        public final String theme;
+        public final String skin;
         public final TypedValue typedValue;
         public final Hook.Apply apply;
 
-        public ValueInfo(String theme, TypedValue typedValue, Hook.Apply apply) {
-            this.theme = theme;
+        public ValueInfo(String skin, TypedValue typedValue, Hook.Apply apply) {
+            this.skin = skin;
             this.typedValue = typedValue;
             this.apply = apply;
         }
@@ -122,15 +122,8 @@ public class SkinInflatorFactory implements LayoutInflater.Factory {
         final List<ValueInfo> infos = new ArrayList<ValueInfo>();
 
         for (HookSet hookSet : mHookSets) {
-            Log.d(TAG, "hook set : " + hookSet.getPrefix());
             for (Hook hook : hookSet.values()) {
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "try hook name: " + hook.hookName());
-                }
                 final String value = attrs.getAttributeValue(hookSet.getNamespace(), hook.hookName());
-                if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "try hook value: " + value);
-                }
                 if (value == null) {
                     continue;
                 }
@@ -156,10 +149,6 @@ public class SkinInflatorFactory implements LayoutInflater.Factory {
                 }
                 if (tv == null) continue;
 
-                if (BuildConfig.DEBUG) {
-                    Log.i(TAG, "parsed TypedValue = " + tv.toString());
-                }
-
                 if (hook.shouldHook(view, tv)) {
                     infos.add(new ValueInfo(hookSet.getPrefix(), tv, hook.getApply()));
                 }
@@ -175,6 +164,7 @@ public class SkinInflatorFactory implements LayoutInflater.Factory {
             Log.d(TAG, "inflate view time = " + now);
         }
 
+        Loot.logInflate().info("Inflated a view: " + name + " using SkinInflatorFactory");
         return view;
     }
 

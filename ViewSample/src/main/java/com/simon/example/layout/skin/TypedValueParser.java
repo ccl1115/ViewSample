@@ -22,12 +22,12 @@ class TypedValueParser {
     static TypedValue parseColor(String color) {
         if (color.startsWith("#")) {
             String substring = color.substring(1, color.length());
-            Log.d(TAG, "color : " + substring);
             TypedValue value = new TypedValue();
             try {
                 value.data = (int) Long.parseLong(substring, 16);
                 Log.d(TAG, "parseColor : " + Integer.toHexString(value.data));
             } catch (NumberFormatException e) {
+                Loot.logParse().warn("Parse color failed: " + color, e);
                 return null;
             }
             final int length = color.length() - 1;
@@ -41,10 +41,12 @@ class TypedValueParser {
             } else if (length == 4) {
                 value.type = TypedValue.TYPE_INT_COLOR_ARGB4;
             } else {
+                Loot.logParse().warn("Parse color failed: [" + color + "] : wrong TypedValue Type");
                 return null;
             }
             return value;
         }
+        Loot.logParse().warn("Parse color failed: [" + color + "] : not a color");
         return null;
     }
 
@@ -59,9 +61,9 @@ class TypedValueParser {
             TypedValue value = new TypedValue();
             value.type = TypedValue.TYPE_FLOAT;
             value.data = Float.floatToIntBits(Float.parseFloat(f));
-            Log.d(TAG, "parseFloat : " + value.data);
             return value;
         } catch (NumberFormatException e) {
+            Loot.logParse().warn("Parse float failed: [" + f + "]", e);
             return null;
         }
     }
@@ -81,7 +83,7 @@ class TypedValueParser {
         String dimenStr = dimension.substring(0, dimension.length() - 3);
 
         int unit;
-        if (unitStr.equals("dp")) {
+        if (unitStr.equals("dp") || unitStr.equals("dip")) {
             unit = TypedValue.COMPLEX_UNIT_DIP;
         } else if (unitStr.equals("sp")) {
             unit = TypedValue.COMPLEX_UNIT_SP;
@@ -94,6 +96,7 @@ class TypedValueParser {
         } else if (unitStr.equals("")) {
             unit = TypedValue.COMPLEX_UNIT_PX;
         } else {
+            Loot.logParse().warn("Parse dimension failed: [" + dimension + "] : wrong unit type");
             return null;
         }
 
@@ -101,6 +104,7 @@ class TypedValueParser {
             final float value = Float.valueOf(dimenStr);
             tv.data = Float.floatToIntBits(TypedValue.applyDimension(unit, value, dm));
         } catch (NumberFormatException e) {
+            Loot.logParse().warn("Parse dimension failed: [" + dimension + "]", e);
             return null;
         }
 
@@ -141,8 +145,9 @@ class TypedValueParser {
         if (integer.startsWith("0x")) {
             tv.type = TypedValue.TYPE_INT_HEX;
             try {
-                tv.data = Integer.parseInt(integer);
+                tv.data = Integer.parseInt(integer, 16);
             } catch (NumberFormatException e) {
+                Loot.logParse().warn("Parse integer failed: [" + integer + "]", e);
                 return null;
             }
             return tv;
@@ -151,6 +156,7 @@ class TypedValueParser {
             try {
                 tv.data = Integer.parseInt(integer);
             } catch (NumberFormatException e) {
+                Loot.logParse().warn("Parse integer failed: [" + integer + "]", e);
                 return null;
             }
             return tv;
@@ -162,8 +168,14 @@ class TypedValueParser {
             TypedValue tv = new TypedValue();
             tv.type = TypedValue.TYPE_REFERENCE;
             tv.data = res.getIdentifier(ref.substring(1, ref.length() - 1), null, null);
+            tv.resourceId = tv.data;
+            if (tv.data == 0) {
+                Loot.logParse().warn("Parse reference failed: [" + ref + "] : resource not found");
+                return null;
+            }
             return tv;
         } else {
+            Loot.logParse().warn("Parse reference failed: [" + ref + "] : not start with @");
             return null;
         }
     }
