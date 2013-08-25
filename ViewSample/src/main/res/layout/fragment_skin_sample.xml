@@ -45,6 +45,6 @@
             android:id="@+id/toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            day:text="切换到夜间模式"
+            day:text="切换到夜间模式 *_*"
             night:text="切换到白天模式 ^_^"/>
 </LinearLayout>

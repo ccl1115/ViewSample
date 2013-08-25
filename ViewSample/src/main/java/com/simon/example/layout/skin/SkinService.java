@@ -46,7 +46,9 @@ public class SkinService {
 
     public static void applySkin(Activity activity, String skin) {
         mSkin = skin;
-        applySkin(activity);
+        activity.getSharedPreferences("default", Context.MODE_PRIVATE).edit().putString("skin", mSkin).apply();
+        Loot.logApply().info("Applying skin [" + mSkin + "] to activity " + activity.getClass().getSimpleName());
+        applyViews(activity.findViewById(android.R.id.content));
     }
 
     private static void applyViews(View root) {
