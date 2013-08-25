@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public abstract class HookSet implements Map<String, Hook> {
 
-    private Map<String, Hook> mHooks = new HashMap<String, Hook>();
+    private final Map<String, Hook> mHooks = new HashMap<String, Hook>();
 
     public abstract String getPrefix();
 
@@ -32,6 +32,7 @@ public abstract class HookSet implements Map<String, Hook> {
         return mHooks.containsValue(o);
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public Set<Entry<String, Hook>> entrySet() {
         return mHooks.entrySet();
@@ -47,6 +48,7 @@ public abstract class HookSet implements Map<String, Hook> {
         return mHooks.isEmpty();
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public Set<String> keySet() {
         return mHooks.keySet();
@@ -72,6 +74,7 @@ public abstract class HookSet implements Map<String, Hook> {
         return mHooks.size();
     }
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public Collection<Hook> values() {
         return mHooks.values();

@@ -1,5 +1,6 @@
 package com.simon.example.layout.skin.hooks;
 
+import android.content.res.Resources;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
@@ -27,7 +28,10 @@ public class TextColorHook implements Hook {
                     tv.setTextColor(value.data);
                     break;
                 case TypedValue.TYPE_REFERENCE:
-                    tv.setTextColor(view.getResources().getColor(value.data));
+                    Resources resources = view.getResources();
+                    if (resources != null) {
+                        tv.setTextColor(resources.getColor(value.data));
+                    }
                     break;
             }
         }

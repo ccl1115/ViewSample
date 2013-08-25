@@ -13,7 +13,6 @@ import android.view.View;
 import com.simon.example.layout.BuildConfig;
 import com.simon.example.layout.R;
 
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -41,10 +40,10 @@ public class SkinInflatorFactory implements LayoutInflater.Factory {
 
     private static final String LOAD_PREFIX = "android.widget.";
 
-    private Map<String, Constructor<? extends View>> mConstructors;
+    private final Map<String, Constructor<? extends View>> mConstructors;
 
-    private DisplayMetrics mDisplayMetrics;
-    private Resources mRes;
+    private final DisplayMetrics mDisplayMetrics;
+    private final Resources mRes;
 
     public SkinInflatorFactory(Context context) {
         mConstructors = new HashMap<String, Constructor<? extends View>>();
@@ -56,9 +55,9 @@ public class SkinInflatorFactory implements LayoutInflater.Factory {
      * Use to bind a typed value to an applier
      */
     public static class ValueInfo {
-        public String theme;
-        public TypedValue typedValue;
-        public Hook.Apply apply;
+        public final String theme;
+        public final TypedValue typedValue;
+        public final Hook.Apply apply;
 
         public ValueInfo(String theme, TypedValue typedValue, Hook.Apply apply) {
             this.theme = theme;
@@ -68,13 +67,14 @@ public class SkinInflatorFactory implements LayoutInflater.Factory {
     }
 
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
         long now;
         if (BuildConfig.DEBUG) {
             now = SystemClock.uptimeMillis();
         }
-        View view = null;
+        View view;
         try {
             Constructor<? extends View> constructor;
             Class<? extends View> c;

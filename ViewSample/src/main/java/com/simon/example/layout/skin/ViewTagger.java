@@ -56,7 +56,7 @@ public class ViewTagger {
      * Static method to get the bare tag from the view.
      *
      * @param v             View from which to retrieve tag
-     * @return
+     * @return the tagged object
      */
     public static Object getTag(View v) {
         ViewTagger tagger = getTagger(v, false);

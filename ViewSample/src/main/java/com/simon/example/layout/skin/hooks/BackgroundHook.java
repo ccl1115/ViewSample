@@ -1,5 +1,6 @@
 package com.simon.example.layout.skin.hooks;
 
+import android.content.res.Resources;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -15,7 +16,10 @@ public class BackgroundHook implements Hook {
         public void to(View view, TypedValue value) {
             switch (value.type) {
                 case TypedValue.TYPE_REFERENCE:
-                    view.setBackgroundColor(view.getResources().getColor(value.data));
+                    Resources res = view.getResources();
+                    if (res != null) {
+                        view.setBackgroundColor(res.getColor(value.data));
+                    }
                     break;
                 case TypedValue.TYPE_INT_COLOR_ARGB4:
                 case TypedValue.TYPE_INT_COLOR_RGB4:

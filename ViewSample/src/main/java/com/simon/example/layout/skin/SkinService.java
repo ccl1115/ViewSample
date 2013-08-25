@@ -20,7 +20,7 @@ import static com.simon.example.layout.skin.SkinInflatorFactory.ValueInfo;
  */
 public class SkinService {
 
-    public static SkinInflatorFactory sSkinInflatorFactory;
+    private static SkinInflatorFactory sSkinInflatorFactory;
 
     public synchronized static SkinInflatorFactory getFactory(Context context) {
         if (sSkinInflatorFactory == null) {
@@ -64,6 +64,7 @@ public class SkinService {
                     stack.push(vg.getChildAt(i));
                 }
             } else {
+                @SuppressWarnings("unchecked")
                 List<ValueInfo> list = (List<ValueInfo>) ViewTagger.getTag(v, R.id.skin_hooker);
 
                 if (list == null) {

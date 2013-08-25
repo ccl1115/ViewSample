@@ -9,9 +9,9 @@ import com.simon.example.layout.skin.hooks.VisibilityHook;
 /**
  * @author Simon Yu
  */
-public abstract class BaseHookSet extends HookSet {
+abstract class BaseHookSet extends HookSet {
 
-    public BaseHookSet() {
+    BaseHookSet() {
         put("background", new BackgroundHook());
         put("textColor", new TextColorHook());
         put("text", new TextHook());

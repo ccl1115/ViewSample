@@ -1,6 +1,5 @@
 package com.simon.example.layout.skin;
 
-import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -12,7 +11,7 @@ import android.util.TypedValue;
  * @see TypedValue
  */
 class TypedValueParser {
-    public static final String TAG = "TypedValueParser";
+    private static final String TAG = "TypedValueParser";
 
     /**
      * 颜色字面值

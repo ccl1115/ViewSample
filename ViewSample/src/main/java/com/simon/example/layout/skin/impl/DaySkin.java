@@ -1,6 +1,5 @@
 package com.simon.example.layout.skin.impl;
 
-import com.simon.example.layout.skin.HookSet;
 
 /**
  * @author Simon Yu
