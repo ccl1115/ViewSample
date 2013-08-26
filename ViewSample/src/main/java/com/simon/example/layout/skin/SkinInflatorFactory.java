@@ -164,7 +164,7 @@ public class SkinInflatorFactory implements LayoutInflater.Factory {
             Log.d(TAG, "inflate view time = " + now);
         }
 
-        Loot.logInflate().info("Inflated a view: " + name + " using SkinInflatorFactory");
+        Loot.logInflate("Inflated a view: " + name + " using SkinInflatorFactory");
         return view;
     }
 
