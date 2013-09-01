@@ -1,12 +1,9 @@
 package com.simon.example.layout.dummy;
 
-import android.support.v4.app.Fragment;
-
+import com.simon.example.layout.NoUpdateFragment;
 import com.simon.example.layout.R;
 import com.simon.example.layout.SampleDetailFragment;
-import com.simon.example.layout.SampleListFragment;
 import com.simon.example.layout.SkinSampleFragment;
-import com.simon.example.layout.skin.SkinService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +35,7 @@ public class DummyContent {
         addItem(new DummyItem("4", "DoodleView", R.layout.fragment_doodle_layout, SampleDetailFragment.class));
         addItem(new DummyItem("5", "CoverFlow", R.layout.fragment_cover_flow, SampleDetailFragment.class));
         addItem(new DummyItem("6", "SkinSample", R.layout.fragment_skin_sample, SkinSampleFragment.class));
+        addItem(new DummyItem("6", "NoUpdateLayout", R.layout.fragment_no_update_layout, NoUpdateFragment.class));
     }
 
     private static void addItem(DummyItem item) {
