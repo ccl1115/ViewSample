@@ -27,7 +27,7 @@ class TypedValueParser {
                 value.data = (int) Long.parseLong(substring, 16);
                 Log.d(TAG, "parseColor : " + Integer.toHexString(value.data));
             } catch (NumberFormatException e) {
-                Loot.logParse().warn("Parse color failed: " + color, e);
+                Loot.logParse("Parse color failed: " + color);
                 return null;
             }
             final int length = color.length() - 1;
@@ -41,12 +41,12 @@ class TypedValueParser {
             } else if (length == 4) {
                 value.type = TypedValue.TYPE_INT_COLOR_ARGB4;
             } else {
-                Loot.logParse().warn("Parse color failed: [" + color + "] : wrong TypedValue Type");
+                Loot.logParse("Parse color failed: [" + color + "] : wrong TypedValue Type");
                 return null;
             }
             return value;
         }
-        Loot.logParse().warn("Parse color failed: [" + color + "] : not a color");
+        Loot.logParse("Parse color failed: [" + color + "] : not a color");
         return null;
     }
 
@@ -63,7 +63,7 @@ class TypedValueParser {
             value.data = Float.floatToIntBits(Float.parseFloat(f));
             return value;
         } catch (NumberFormatException e) {
-            Loot.logParse().warn("Parse float failed: [" + f + "]", e);
+            Loot.logParse("Parse float failed: [" + f + "]");
             return null;
         }
     }
@@ -96,7 +96,7 @@ class TypedValueParser {
         } else if (unitStr.equals("")) {
             unit = TypedValue.COMPLEX_UNIT_PX;
         } else {
-            Loot.logParse().warn("Parse dimension failed: [" + dimension + "] : wrong unit type");
+            Loot.logParse("Parse dimension failed: [" + dimension + "] : wrong unit type");
             return null;
         }
 
@@ -104,7 +104,7 @@ class TypedValueParser {
             final float value = Float.valueOf(dimenStr);
             tv.data = Float.floatToIntBits(TypedValue.applyDimension(unit, value, dm));
         } catch (NumberFormatException e) {
-            Loot.logParse().warn("Parse dimension failed: [" + dimension + "]", e);
+            Loot.logParse("Parse dimension failed: [" + dimension + "]");
             return null;
         }
 
@@ -147,7 +147,7 @@ class TypedValueParser {
             try {
                 tv.data = Integer.parseInt(integer, 16);
             } catch (NumberFormatException e) {
-                Loot.logParse().warn("Parse integer failed: [" + integer + "]", e);
+                Loot.logParse("Parse integer failed: [" + integer + "]");
                 return null;
             }
             return tv;
@@ -156,7 +156,7 @@ class TypedValueParser {
             try {
                 tv.data = Integer.parseInt(integer);
             } catch (NumberFormatException e) {
-                Loot.logParse().warn("Parse integer failed: [" + integer + "]", e);
+                Loot.logParse("Parse integer failed: [" + integer + "]");
                 return null;
             }
             return tv;
@@ -170,12 +170,12 @@ class TypedValueParser {
             tv.data = res.getIdentifier(ref.substring(1, ref.length() - 1), null, null);
             tv.resourceId = tv.data;
             if (tv.data == 0) {
-                Loot.logParse().warn("Parse reference failed: [" + ref + "] : resource not found");
+                Loot.logParse("Parse reference failed: [" + ref + "] : resource not found");
                 return null;
             }
             return tv;
         } else {
-            Loot.logParse().warn("Parse reference failed: [" + ref + "] : not start with @");
+            Loot.logParse("Parse reference failed: [" + ref + "] : not start with @");
             return null;
         }
     }

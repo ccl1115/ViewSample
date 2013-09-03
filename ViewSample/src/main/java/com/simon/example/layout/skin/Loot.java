@@ -1,13 +1,6 @@
 package com.simon.example.layout.skin;
 
-import android.content.Context;
-
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
-import java.io.File;
-
-import de.mindpipe.android.logging.log4j.LogConfigurator;
+import android.util.Log;
 
 /**
  * An internal logger backend by log4j
@@ -17,38 +10,17 @@ import de.mindpipe.android.logging.log4j.LogConfigurator;
  * @author Simon Yu
  */
 class Loot {
-    private static Logger sApplyLogger;
-    private static Logger sInflateLogger;
-    private static Logger sParseLogger;
 
-
-    static void configure(Context context) {
-        final LogConfigurator logConfigurator = new LogConfigurator();
-
-        logConfigurator.setFileName(context.getFilesDir() + File.separator + "skin_service.log");
-        logConfigurator.setRootLevel(Level.DEBUG);
-        logConfigurator.setUseLogCatAppender(true);
-        logConfigurator.configure();
+    static void logApply(String msg) {
+        Log.d("skin.apply", msg);
     }
 
-    synchronized static Logger logApply() {
-        if (sApplyLogger == null) {
-            sApplyLogger = Logger.getLogger("skin.apply");
-        }
-        return sApplyLogger;
+    static void logInflate(String msg) {
+        Log.d("skin.inflate", msg);
+
     }
 
-    synchronized static Logger logInflate() {
-        if (sInflateLogger == null) {
-            sInflateLogger = Logger.getLogger("skin.inflate");
-        }
-        return sInflateLogger;
-    }
-
-    synchronized static Logger logParse() {
-        if (sParseLogger == null) {
-            sParseLogger = Logger.getLogger("skin.parse");
-        }
-        return sParseLogger;
+    static void logParse(String msg) {
+        Log.d("skin.parse", msg);
     }
 }
