@@ -36,6 +36,7 @@ public class DummyContent {
         addItem(new DummyItem("5", "CoverFlow", R.layout.fragment_cover_flow, SampleDetailFragment.class));
         addItem(new DummyItem("6", "SkinSample", R.layout.fragment_skin_sample, SkinSampleFragment.class));
         addItem(new DummyItem("6", "NoUpdateLayout", R.layout.fragment_no_update_layout, NoUpdateFragment.class));
+        addItem(new DummyItem("7", "SameCanvasLayout", R.layout.fragment_same_canvas, SampleDetailFragment.class));
     }
 
     private static void addItem(DummyItem item) {
